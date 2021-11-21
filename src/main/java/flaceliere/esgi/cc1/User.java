@@ -1,16 +1,23 @@
 package flaceliere.esgi.cc1;
 
+import java.util.InvalidPropertiesFormatException;
+
 public class User {
     private final int id;
     private String firstName;
     private String lastName;
     private String mail;
     private String password;
-    private typeUser typeUser;
-    private StatutCustomer statutCustomer;
+    private TypeUser typeUser;
     private Address address;
+    private StatePaiementUser statePaiementUser;
 
-    public User(int id, String firstName, String lastName, String mail, String password, typeUser typeUser, StatutCustomer statutCustomer, Address address) {
+
+
+    public User(int id, String firstName, String lastName, String mail, String password, TypeUser typeUser, Address address) throws InvalidPropertiesFormatException {
+        if (!isValideEmailAddress(mail)) {
+            throw new InvalidPropertiesFormatException("Invalid email address");
+        }
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -18,30 +25,31 @@ public class User {
         this.password = password;
         this.typeUser = typeUser;
         this.address = address;
-        this.statutCustomer = statutCustomer;
+        this.statePaiementUser = StatePaiementUser.CAN_NOT_PAY;
     }
 
-    public User(int id, String firstName, String lastName, String mail, String password, typeUser typeUser, Address address) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.mail = mail;
-        this.password = password;
-        this.typeUser = typeUser;
-        this.address = address;
+    public boolean isValideEmailAddress(String address) {
+        return address.indexOf('@') != -1;
     }
 
+    public void updatePaiementAuthUser() {
+        this.statePaiementUser = StatePaiementUser.CAN_PAY;
+    }
+
+    public void setStatePaiementUser(StatePaiementUser statePaiementUser) {
+        this.statePaiementUser = statePaiementUser;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public StatePaiementUser getStatePaiementUser() {
+        return statePaiementUser;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public StatutCustomer getStatutCustomer() {
-        return statutCustomer;
-    }
-
-    public void setStatutCustomer(StatutCustomer statutCustomer) {
-        this.statutCustomer = statutCustomer;
     }
 
     public String getFirstName() {
@@ -52,7 +60,7 @@ public class User {
         return mail;
     }
 
-    public typeUser getTypeUser() {
+    public TypeUser getTypeUser() {
         return typeUser;
     }
 
@@ -80,7 +88,7 @@ public class User {
         this.password = password;
     }
 
-    public void setTypeUser(flaceliere.esgi.cc1.typeUser typeUser) {
+    public void setTypeUser(TypeUser typeUser) {
         this.typeUser = typeUser;
     }
 
