@@ -1,5 +1,5 @@
 package flaceliere.esgi.cc1;
-//test
+
 public class Address {
 
     private final int id;
